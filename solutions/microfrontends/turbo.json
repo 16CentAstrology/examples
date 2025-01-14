@@ -1,29 +1,35 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**", "storybook-static/**"]
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        "storybook-static/**"
+      ]
     },
-    "main#build": {
-      "dependsOn": ["^build", "$DOCS_URL"],
-      "outputs": [".next/**"]
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "dependsOn": ["^build"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "start": {
+      "cache": false
     },
     "test": {
       "dependsOn": ["^build"],
       "outputs": []
     },
-    "lint": {
-      "outputs": []
-    },
-    "dev": {
-      "cache": false
-    },
-    "start": {
-      "cache": false
-    },
-    "clean": {
-      "cache": false
+    "type-check": {
+      "dependsOn": ["^build"],
+      "outputs": ["**/node_modules/.cache/tsbuildinfo.json"]
     }
   }
 }
