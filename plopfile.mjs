@@ -17,26 +17,11 @@ export default function (plop) {
         name: 'exampleScopeFolder',
         message: 'Scope (Example folder): ',
         choices: [
-          { name: 'Solutions', value: 'solutions' },
-          { name: 'Edge Functions', value: 'edge-functions' },
           { name: 'App directory', value: 'app-directory' },
-        ],
-      },
-      {
-        type: 'checkbox',
-        name: 'options',
-        message: 'What options do you like?',
-        choices: [
-          {
-            name: 'Basic example',
-            value: 'basic',
-            checked: true,
-          },
-          {
-            name: 'Next.js API Routes - Serverless Functions: Hello world',
-            value: 'next-api-pages',
-          },
-          { name: 'Next.js Middleware Function', value: 'middleware' },
+          { name: 'Edge Functions', value: 'edge-functions' },
+          { name: 'Edge Middleware', value: 'edge-middleware' },
+          { name: 'Solutions', value: 'solutions' },
+          { name: 'Starter', value: 'starter' },
         ],
       },
     ],
@@ -49,15 +34,16 @@ export default function (plop) {
         'tsconfig.json',
         '.eslintrc.json',
         '.gitignore',
-        'next-env.d.ts',
         'package.json',
-        'pages/index.tsx',
-        'pages/_app.tsx',
+        'pnpm-lock.yaml',
+        'app/layout.tsx',
+        'app/page.tsx',
         'postcss.config.js',
         'tailwind.config.js',
         'public/favicon.ico',
+        'turbo.json',
+        'vercel.json',
       ]
-
       const actions = []
 
       // Copy over basic files
@@ -69,35 +55,19 @@ export default function (plop) {
         })
       })
 
-      // modify _app.tsx
+      // modify app/layout.tsx
       actions.push({
         type: 'modify',
-        path: `{{exampleScopeFolder}}/${plopExampleName}/pages/_app.tsx`,
+        path: `{{exampleScopeFolder}}/${plopExampleName}/app/layout.tsx`,
         pattern: /(-- PLOP PATH HERE --)/gi,
         template: `${plopPath}`,
       })
       actions.push({
         type: 'modify',
-        path: `{{exampleScopeFolder}}/${plopExampleName}/pages/_app.tsx`,
+        path: `{{exampleScopeFolder}}/${plopExampleName}/app/layout.tsx`,
         pattern: /(-- PLOP TITLE HERE --)/gi,
         template: `${data.name}`,
       })
-
-      if (data.options.includes('next-api-pages')) {
-        actions.push({
-          type: 'add',
-          path: `{{exampleScopeFolder}}/${plopExampleName}/pages/api/hello.ts`,
-          templateFile: `plop-templates/example/pages/api/hello.ts`,
-        })
-      }
-
-      if (data.options.includes('middleware')) {
-        actions.push({
-          type: 'add',
-          path: `{{exampleScopeFolder}}/${plopExampleName}/middleware.ts`,
-          templateFile: `plop-templates/example/middleware.ts`,
-        })
-      }
 
       return [
         ...actions,
@@ -127,11 +97,9 @@ export default function (plop) {
           pattern: /(-- PLOP EXAMPLE NAME HERE --)/gi,
           template: `${plopExampleName}`,
         },
-
-        // pages/index.tsx
         {
           type: 'modify',
-          path: `{{exampleScopeFolder}}/${plopExampleName}/pages/index.tsx`,
+          path: `{{exampleScopeFolder}}/${plopExampleName}/app/page.tsx`,
           pattern: /(-- PLOP TITLE HERE --)/gi,
           template: `${data.name}`,
         },

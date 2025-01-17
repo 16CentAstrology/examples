@@ -3,14 +3,6 @@
 # Dependencies
 /node_modules
 
-# Ignore the dependency locks of all examples
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-# include lockfile for turbo
-!/solutions/monorepo/pnpm-lock.yaml
-!/solutions/testing/pnpm-lock.yaml
-
 # Misc
 .DS_Store
 *.pem
@@ -23,5 +15,4 @@ pnpm-lock.yaml
 # Local ENV files
 /.env*.local
 
-# Repo scripts
-scripts/dist
+.vercel
